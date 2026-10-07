@@ -240,6 +240,41 @@ body {
 /* wkhtmltopdf : évite qu'une ligne soit coupée entre deux pages (trait parasite sur la ligne en haut de page) */
 .items tr,
 .items td,
+/*
+ * Liste de colisage : une table par ligne (voir lc.html.twig).
+ * Colonnes à largeur fixe pour rester alignées d'une table à l'autre,
+ * marge négative pour ne pas doubler les bordures entre deux tables.
+ */
+.items.lc-items table {
+    table-layout: fixed;
+    page-break-inside: avoid;
+    margin-top: -1px;
+}
+
+.items.lc-items table:first-child {
+    margin-top: 0;
+}
+
+.items.lc-items .col-num { width: 8.5%; }
+.items.lc-items .col-parcel { width: 8.5%; }
+.items.lc-items .col-sku { width: 8%; }
+.items.lc-items .col-designation { width: 55%; }
+.items.lc-items .col-colour { width: 15%; }
+.items.lc-items .col-qty { width: 5%; }
+
+.items.lc-items table tbody tr.striped {
+    background-color: #f2f2f2;
+}
+
+.items.lc-items td.no-boder {
+    border-top: none;
+    border-bottom: none;
+}
+
+.items.lc-items table:last-child td.no-boder {
+    border-bottom: 1px solid #333334;
+}
+
 .items th {
     page-break-inside: avoid !important;
 }

@@ -170,8 +170,24 @@
     </table>
 </div>
 
-<div class="items">
+<div class="items lc-items">
+    {#
+        Une table par ligne : wkhtmltopdf (Qt non patché) ne sait pas éviter
+        de couper une ligne de tableau entre deux pages, mais il sait déplacer
+        un bloc entier (page-break-inside: avoid) sur la page suivante.
+    #}
+    {% set cols %}
+        <colgroup>
+            <col class="col-num">
+            <col class="col-parcel">
+            <col class="col-sku">
+            <col class="col-designation">
+            <col class="col-colour">
+            <col class="col-qty">
+        </colgroup>
+    {% endset %}
     <table>
+        {{ cols }}
         <tr>
             <th>{{ 'Parcel n°'|trans }}</th> <!--TRAD-->
             <th>{{ 'Parcel ref'|trans }}</th> <!--TRAD-->
@@ -180,14 +196,23 @@
             <th>{{ 'Colour'|trans }}</th>
             <th>{{ 'Qty'|trans }}</th> <!--TRAD-->
         </tr>
-        {% for id, packages in colis %}
-            <tr>
+    </table>
+    {% set row = 0 %}
+    {% for id, packages in colis %}
+        {% set row = row + 1 %}
+        <table>
+            {{ cols }}
+            <tr class="{{ row is odd ? 'striped' }}">
                 <td><strong>{{ packages.num }}</strong> / {{ order.NBCOLIS }}</td>
                 <td>{{ id }}</td>
                 <td colspan="4">{{ packages.class }}</td>
             </tr>
-            {% for line in packages.lines %}
-                <tr>
+        </table>
+        {% for line in packages.lines %}
+            {% set row = row + 1 %}
+            <table>
+                {{ cols }}
+                <tr class="{{ row is odd ? 'striped' }}">
                     <td class="no-boder"></td>
                     <td class="no-boder"></td>
                     <td class="sku">{{ line.STD_REFERENCE }}</td>
@@ -197,9 +222,9 @@
                     <td>{{ line.COLORS }}</td>
                     <td> {{ line.PREPAREE|round }}</td>
                 </tr>
-            {% endfor %}
+            </table>
         {% endfor %}
-    </table>
+    {% endfor %}
 </div>
 
 {#<footer style="position:fixed;bottom:10mm;left:10mm;right:10mm;font-size:12px;color:#666;">#}
