@@ -237,6 +237,13 @@ body {
     border-collapse: collapse;
 }
 
+/* wkhtmltopdf : évite qu'une ligne soit coupée entre deux pages (trait parasite sur la ligne en haut de page) */
+.items tr,
+.items td,
+.items th {
+    page-break-inside: avoid !important;
+}
+
 .items th {
     background-color: #4C4C4D;
     color: #FFFFFF;
