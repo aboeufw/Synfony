@@ -1,0 +1,37 @@
+{% trans_default_domain 'bl' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wesco</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ absolute_url(asset('css/shipping_documents/bl.css')) }}">
+    <link  rel="icon" type="image/x-icon" href="{{ asset('images/favicon_wesco.png') }}" />
+</head>
+<div class="home">
+    <img src="{{ asset('images/logo.png') }}" alt="Logo Wesco">
+</div>
+<div class="search">
+    <form onsubmit="event.preventDefault(); go();">
+        <div class="field">
+            <label for="id">{{ 'Packing list'|trans }}</label>
+            <input type="text" id="id"  required placeholder="Ex: LT806829">
+        </div>
+        <div class="field">
+            <label for="track">{{ 'Shipping number'|trans }}</label>
+            <input type="text" id="track"  required placeholder="Ex: 03787047">
+        </div>
+        <button type="submit">{{ 'Search'|trans }}</button>
+    </form>
+</div>
+</html>
+
+
+<script>
+    function go() {
+        const id = document.getElementById('id').value;
+        const track = document.getElementById('track').value;
+
+        window.location.href = `/shippingDocuments/${id}/${track}`;
+    }
+</script>

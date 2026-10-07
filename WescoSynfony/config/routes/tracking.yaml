@@ -1,0 +1,4 @@
+tracking:
+    resource: '../../src/Tracking/Controller/'
+    type: attribute
+    host: '%app.tracking_host%'

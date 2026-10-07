@@ -1,0 +1,280 @@
+{% trans_default_domain 'bl' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ 'Delivery note'|trans }}</title>
+    <link rel="stylesheet" href="{{ asset('css/shipping_documents/bl.css') }}">
+    <link  rel="icon" type="image/x-icon" href="{{ asset('images/favicon_wesco.png') }}" />
+</head>
+<body>
+<header>
+    <div class="top-header"></div>
+    <div class="title">
+        <h1>{{ 'Delivery note'|trans }}</h1>
+    </div>
+</header>
+
+<div class="top">
+    <table class="full-table">
+        <tr>
+            <td class="order-info">
+                <span class="base-line">{{ 'Document to be kept for any exchange.'|trans }}</span>
+                <table class="full-table top-info">
+                    <tr>
+                        <td class="label-info">{{ 'Delivery note'|trans }}</td>
+                        <td class="value-info">{{ order.COMMANDE }} / {{ order.NOLIVRAISON }}</td>
+                    </tr>
+                </table>
+                <table class="full-table top-info">
+                    <tr>
+                        <td class="label-info">{{ 'Customer n°'|trans }}</td>
+                        <td class="value-info no-bottom-border">
+                            {% if order.showBilling == 'true' %}
+                                {{ order.LIV_NUMCLIENT }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-info top-border">{{ 'Your order N°'|trans }}</td>
+                        <td class="value-info no-top-border no-bottom-border">{{ order.CMDECLIENT }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label-info top-border">{{ 'Carrier'|trans }}</td>
+                        <td class="value-info no-top-border no-bottom-border">{{ order.TRANSPORTEUR }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label-info top-border">{{ 'Wesco reference'|trans }}</td>
+                        <td class="value-info no-top-border">{{ order.GESCOM }}</td>
+                    </tr>
+                </table>
+            </td>
+            <td class="identity">
+                <img src="data:image/png;base64,{{ logoBase64 }}">
+                {% if order.FAC_NUMCLIENT != "AA702310" %}
+                    <div class="wesco-address">
+                        {% if order.EXP_PAYS == "AUSTRIA" %}
+                            <div class="wesco-address-autriche">
+                                Freecall-Fon: 0800 02477381<br/>
+                                Freecall-Fax: 0049 95615963514<br/>
+                                e-mail: info@wesco-group.at
+                            </div>
+                        {% endif %}
+                        <div>
+                            {{ order.EXP_NOM1}} <br>
+                            {% if order.EXP_ADRESSE1|trim != '' %}
+                                {{ order.EXP_ADRESSE1}} <br>
+                            {% endif %}
+                            {% if order.EXP_ADRESSE2|trim != '' %}
+                                {{ order.EXP_ADRESSE2}} <br>
+                            {% endif %}
+                            {% if order.EXP_ADRESSE3|trim != '' %}
+                                {{ order.EXP_ADRESSE3}} <br>
+                            {% endif %}
+
+                            {{ order.EXP_CODEPOSTAL}} {{ order.EXP_VILLE}}<br>
+                            {{ order.EXP_PAYS}}
+
+                            {% if order.EXP_PAYS == 'PORTUGAL' %}
+                                Tel: 800 200 182 - Fax: 800 200 183 <br/>
+                                wescoportugal@gmail.com
+                            {% elseif order.EXP_PAYS == 'FRANCE' %}
+                                Tel: 05-49-80-01-66 <br/>
+                                www.wesco-group.com
+                            {% elseif order.EXP_PAYS == 'GREAT BRITAIN' %}
+                                Tel: (O115) 989 9765 - Fax: (O115) 989 2401
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="addresses">
+    <table class="full-table">
+        <tr>
+            <td class="address">
+                <div class="content">
+                    <label>{{ 'Deliver to'|trans }}</label>
+                    <div>
+                        <br/><span>{{ order.LIV_NOM2 }}</span>
+                        {% if order.LIV_ADRESSE1|trim != '' %}
+                            <br/><span>{{ order.LIV_ADRESSE1 }}</span>
+                        {% endif %}
+                        {% if order.LIV_ADRESSE2|trim != '' %}
+                            <br/><span>{{ order.LIV_ADRESSE2 }}</span>
+                        {% endif %}
+                        <br/><span>{{ order.LIV_CODEPOSTAL }} {{ order.LIV_VILLE }}</span>
+                        <br/><span>{{ order.LIV_PAYS }}</span>
+                    </div>
+                </div>
+            </td>
+            <td class="address right">
+                {% if order.showBilling == 'true' %}
+                    <div class="content">
+                        <label>{{ 'Invoice Address'|trans }}</label>
+                        <div>
+                            <br/><span>{{ order.FAC_NOM1 }}</span>
+                            {% if order.FAC_ADRESSE1|trim != '' %}
+                                <br/><span>{{ order.FAC_ADRESSE1 }}</span>
+                            {% endif %}
+                            {% if order.FAC_ADRESSE2|trim != '' %}
+                                <br/><span>{{ order.FAC_ADRESSE2 }}</span>
+                            {% endif %}
+                            <br/><span>{{ order.FAC_CODEPOSTAL }} {{ order.FAC_VILLE }}</span>
+                            <br/><span>{{ order.FAC_PAYS }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if order.FAC_NUMCLIENT == 'AA015000' %}
+                    <div class="content">
+                        <div>
+                            CHECK CONTENTS IMMEDIATELY<br/>
+                            Claims for Carrier<br/>
+                            Damage can only be considered if reported<br/>
+                            WITHIN 24 HOURS<br/>
+                            Tel: 01869 320320<br/>
+                            Fax: 01869 320312<br/>
+                        </div>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="detail">
+    <table class="full-table">
+        <tr>
+            <td class="detail-left">
+                <div class="content">
+                    <label>{{ 'Special Instructions'|trans }}</label>
+                    <span>{{ order.LIV_NOM1 }}</span>
+                    <table>
+                        <tr>
+                            <th>{{ 'Packages'|trans }}</th>
+                            <th>{{ 'Weight'|trans }}</th>
+                            <th>{{ 'Volume'|trans }}</th>
+                            <th>{{ 'Order prepared on'|trans }}</th>
+                        </tr>
+                        <tr>
+                            <td>{{ order.NBCOLIS }}</td>
+                            <td>{{ order.POIDS|round(2) }} kg</td>
+                            <td>{{ order.VOLUME|round(2) }} m3</td>
+                            <td>{{ order.DATEPREP }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td class="detail-right">
+                <div class="content">
+                    <table>
+                        <tr>
+                            <!-- TODO si AT pas de text-->
+                            {% if order.haveReliquat == 'true' %}
+                                <td>
+                                    <strong>{{ 'Dear Customer,'|trans }}</strong> <br/>
+                                    {{ 'Thank you for your order. We hope you will be satisfied with it.'|trans }}
+                                </td>
+                                <td>{{ "At the back of this document, you will find a form to allow you to return or exchange an item you're not satisfied with"|trans }}</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="items">
+    <table>
+        <tr>
+            <th>{{ 'Reference'|trans }}</th>
+            <th>{{ 'Description'|trans }}</th>
+            <th>{{ 'Colour'|trans }}</th>
+            <th>{{ 'Quantity delivered'|trans }}</th>
+            <th>{{ 'Back order'|trans }}</th>
+        </tr>
+        {% for line in linesSimple %}
+            <tr>
+                <td class="sku">{{ line.SKU_FORMAT }}</td>
+                <td class="designation">{{ line.product_name }}</td>
+                <td>{{ line.COLORS }}</td>
+                <td>
+                    {% if line.PREPAREE > 0 %}
+                        <strong>
+                    {% endif %}
+                    {{ line.PREPAREE|round }}
+                    {% if line.PREPAREE > 0 %}
+                        </strong>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if line.QTE_RESTE_A_LIVRER_FINAL > 0 %}
+                        <strong>
+                    {% endif %}
+                        {{ line.QTE_RESTE_A_LIVRER_FINAL|round }}
+                    {% if line.QTE_RESTE_A_LIVRER_FINAL > 0 %}
+                        </strong>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        {% for sku, lines in linesCompose %}
+            <tr class="parent">
+                <td class="sku">{{ lines.0.SKU_FORMAT_PARENT }}</td>
+                <td class="designation">{{ lines.0.configurable_product_name }}</td>
+                <td>{{ lines.0.COLOR_PARENT }}</td>
+                <td>
+                    {% if lines.0.QTEPREPKIT > 0 %}
+                    <strong>
+                        {% endif %}
+                        {{ lines.0.QTEPREPKIT|round }}
+                        {% if lines.0.QTEPREPKIT > 0 %}
+                    </strong>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if lines.0.QTE_RESTE_A_LIVRER_FINAL > 0 %}
+                        <strong>
+                    {% endif %}
+                        {{ lines.0.QTE_RESTE_A_LIVRER_FINAL|round }}
+                    {% if lines.0.QTE_RESTE_A_LIVRER_FINAL > 0 %}
+                        </strong>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr class="children">
+                <td></td>
+                <td class="designation">{{ 'Kit made of'|trans }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% for line in lines %}
+                <tr class="children">
+                    <td></td>
+                    <td class="designation">
+                        {{ line.nbCompose|round }} :
+                        {% if line.product_name|trim != '' %}
+                            {{ line.product_name }}
+                        {% else %}
+                            {{ line.SKU_FORMAT }}
+                        {% endif %}
+                    </td>
+                    <td>{{ line.COLORS }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+</div>
+
+{#<footer style="position:fixed;bottom:10mm;left:10mm;right:10mm;font-size:12px;color:#666;">#}
+{#    Page [page] / [toPage]#}
+{#</footer>#}
+
+</body>
+</html>

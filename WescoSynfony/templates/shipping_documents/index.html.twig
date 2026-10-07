@@ -1,0 +1,51 @@
+{% trans_default_domain 'bl' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wesco</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ absolute_url(asset('css/shipping_documents/bl.css')) }}">
+    <link  rel="icon" type="image/x-icon" href="{{ asset('images/favicon_wesco.png') }}" />
+</head>
+<div class="home">
+    <img src="{{ asset('images/logo.png') }}" alt="Logo Wesco">
+</div>
+<div class="menu">
+    {% if order %}
+        <table style="margin: auto;">
+            <tr>
+                <td>
+                    <div class="link-content">
+                        <span>{{ 'Delivery note'|trans }}</span><br/><br/>
+                        <a target="_blank" id="downloadBtns" class="download" href="{{ asset('shippingDocuments/bl/load/') }}{{ orderId }}/{{ track }}/{{ lang }}/pdf">{{ 'Download'|trans }}</a><br/><br/>
+                        <!--<a target="_blank" class="view-web" href="{{ asset('shippingDocuments/bl/load/') }}{{ orderId }}/{{ track }}/{{ lang }}/html">{{ 'View'|trans }}</a>-->
+                    </div>
+                </td>
+                <td>
+                    <div class="link-content">
+                        <span>{{ 'Packing list'|trans }}</span><br/><br/>
+                        <a target="_blank" id="downloadBtn" class="download" href="{{ asset('shippingDocuments/lc/load/') }}{{ orderId }}/{{ track }}/{{ lang }}/pdf">{{ 'Download'|trans }}</a><br/><br/>
+                        <!--<a target="_blank" class="view-web" href="{{ asset('shippingDocuments/lc/load/') }}{{ orderId }}/{{ track }}/{{ lang }}/html">{{ 'View'|trans }}</a>-->
+                    </div>
+                </td>
+                {% if showAr %}
+                    <td>
+                        <div class="link-content">
+                            <span>{{ 'Return authorisation'|trans }}</span><br/><br/>
+                            <a target="_blank" id="downloadBtn" class="download" href="{{ asset('shippingDocuments/ar/') }}{{ orderId }}/{{ track }}">{{ 'Download'|trans }}</a><br/><br/>
+                        </div>
+                    </td>
+                {% endif %}
+            </tr>
+        </table>
+    {% else %}
+        <div style="margin: auto; text-align: center">{{ 'You have no documents'|trans }}</div>
+    {% endif %}
+</div>
+<div class="search-link">
+    <a href="/shippingDocuments/">{{ 'Search'|trans }}</a>
+</div>
+
+</html>
+

@@ -1,0 +1,58 @@
+doctrine:
+    dbal:
+        default_connection: primary
+        connections:
+            primary:
+                driver: 'pdo_sqlsrv'
+                host: '%env(DB_PRIMARY_HOST)%'
+                port: '%env(int:DB_PRIMARY_PORT)%'
+                dbname: '%env(DB_PRIMARY_NAME)%'
+                user: '%env(DB_PRIMARY_USER)%'
+                password: '%env(DB_PRIMARY_PASSWORD)%'
+                charset: 'UTF-8'
+                options:
+                    Encrypt: true
+                    TrustServerCertificate: true
+                profiling_collect_backtrace: '%kernel.debug%'
+                use_savepoints: true
+            secondary:
+                driver: 'pdo_sqlsrv'
+                host: '%env(DB_SECONDARY_HOST)%'
+                port: '%env(int:DB_SECONDARY_PORT)%'
+                dbname: '%env(DB_SECONDARY_NAME)%'
+                user: '%env(DB_SECONDARY_USER)%'
+                password: '%env(DB_SECONDARY_PASSWORD)%'
+                charset: 'UTF-8'
+                options:
+                    Encrypt: true
+                    TrustServerCertificate: true
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        default_entity_manager: default
+
+        entity_managers:
+            default:
+                connection: primary
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: App
+
+        controller_resolver:
+            auto_mapping: false
+
+when@test:
+    doctrine:
+        dbal:
+            # "TEST_TOKEN" is typically set by ParaTest
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'

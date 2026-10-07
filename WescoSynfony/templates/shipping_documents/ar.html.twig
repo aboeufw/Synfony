@@ -1,0 +1,17 @@
+{% trans_default_domain 'bl' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ 'Return authorisation'|trans }}</title>
+    <link rel="stylesheet" href="{{ asset('css/shipping_documents/bl.css') }}">
+    <link  rel="icon" type="image/x-icon" href="{{ asset('images/favicon_wesco.png') }}" />
+</head>
+<body>
+    <div class="ar">
+        <img src="data:image/png;base64,{{ fond }}" width="100%">
+        <span class="num_customer">{{ order.FAC_NUMCLIENT }}</span>
+        <span class="num_order">{{ order.GESCOM }}</span>
+    </div>
+</body>
+</html>

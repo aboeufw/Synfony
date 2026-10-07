@@ -1,0 +1,151 @@
+{% trans_default_domain 'bl' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Wesco</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ asset('css/tracking/style.css') }}">
+        <link  rel="icon" type="image/x-icon" href="{{ asset('images/favicon_wesco.png') }}" />
+    </head>
+    <body>
+        <div class="main">
+            <div class="home">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo Wesco">
+            </div>
+            <div class="">
+                {% if order == 'false' %}
+                    {% if dataExp == 'false' %}
+                        <div style="margin: auto; text-align: center">{{ 'Order no found'|trans }}</div>
+                    {% else %}
+                        <div class="order-title">
+                            <div class="order-title-number">
+                                Commande {{ orderId }} : Non Shipup
+                            </div>
+                        </div>
+                        <div class="trackers">
+                            {% for exp, status in dataExp %}
+                                    <div class="open-tracking">
+                                        <div class="order-element">
+                                            <div class="order-element-title">
+                                                {{ exp }}
+                                            </div>
+                                            <div class="shipping-container">
+                                                <div class="shipping-carrier">
+                                                    <div class="shipping-info">
+                                                        <span>Statut</span> : <span class="info-val">{{ status }}</span> <br/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="order-title">
+                        <div class="order-title-number">
+                            Commande {{ order.order_id }}
+                        </div>
+                        <div class="order-date">
+                            {{ order.created_at|date('d/m/Y') }}
+                        </div>
+                    </div>
+                    <div class="trackers">
+                        {% for tracker in trackers %}
+                            <div class="open-tracking" onclick="showIframe('{{ tracker.url }}')">
+                                <div class="order-element">
+                                    <div class="order-element-title">
+                                        {{ tracker.lt }}
+                                    </div>
+                                    <div class="shipping-container">
+                                        <div class="shipping-carrier">
+                                            <div class="shipup-carrier">
+                                                <img src="{{ asset('images/' ~ tracker.carrier_code ~ '-circle.png') }}" alt="GLS" tabindex="0">
+                                                {{ tracker.nb_colis}} colis pour {{ tracker.qty}} article(s)
+                                            </div>
+                                            <div class="shipping-info">
+                                                <span>Tracking colis</span> : <span class="info-val">{{ tracker.tracking_number }}</span> <br/>
+                                                <span>OT</span> : <span class="info-val">{{ tracker.ot }}</span><br/>
+                                                <span>Numéro d'expédition</span> : <span class="info-val">{{ tracker.num_liv }}</span><br/>
+                                                <a class="tracking_link_shippingDocument" target="_blank" href="{{ tracker.shippingDocument }}">Bl / LC / AR</a><br/>
+                                                <span>----</span><br/>
+                                                <span>Date d'expédition</span> : <span class="info-val">{{ tracker.shipped_at|date('d/m/Y') }}</span><br/>
+                                                <span>Date de livraison</span> :
+                                                {% if tracker.delivered_at == 'false' %}
+                                                    <span class="info-val">Non livré</span><br/>
+                                                {%else%}
+                                                    <span class="info-val">{{ tracker.delivered_at|date('d/m/Y') }}</span><br/>
+                                                {%endif%}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% for tracker in beforeTrackers %}
+                            <div class="order-element">
+                                <div class="order-element-title">
+                                    {{ tracker.lt }}
+                                </div>
+                                <div class="shipping-container">
+                                    <div class="shipping-carrier">
+                                        <div class="shipping-info">
+                                            <span>Statut</span> : <span class="info-val">{{ tracker.status_code|trans }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% for tracker in bextTrackers %}
+                            <div class="order-element">
+                                <div class="order-element-title">
+                                    {{ tracker.STD_COMMANDE }}
+                                </div>
+                                <div class="shipping-container">
+                                    <span class="no-shipup">Transporteur non géré dans Shipup</span><br/>
+                                    <div class="shipping-carrier">
+                                        <div class="shipping-info">
+                                            <span>Statut</span> : <span class="info-val">{{ tracker.STD_ETAT_CDE_LABELLE }}</span> <br/>
+                                            <span>Transporteur</span> : <span class="info-val">{{ tracker.STD_NOMTRANS }}</span> <br/>
+                                            {% if tracker.STD_ETAT_CDE == 9 %}
+                                                <span>Date d'expédition</span> : <span class="info-val">{{ tracker.STD_DEXPED_CDE|date('d/m/Y') }}</span> <br/>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
+
+<div id="iframe-container" class="iframe-container">
+    <a class="close" href="" onclick="hideIframe()">x</a>
+    <iframe id="dynamic-iframe" src="" frameborder="0"></iframe>
+</div>
+
+
+<script>
+    function showIframe(url) {
+        const container = document.getElementById('iframe-container');
+        const iframe = document.getElementById('dynamic-iframe');
+
+        document.body.style.setProperty('background-color','rgba(0, 0, 0, .5)')
+        iframe.src = url;
+        container.classList.add('active');
+
+        const act = document.getElementsByClassName('shipup-top-navbar');
+        act.style.setProperty('display','none')
+    }
+
+    function hideIframe(url) {
+        const container = document.getElementById('iframe-container');
+        document.body.style.setProperty('background-color','#fff')
+        container.classList.remove('active');
+    }
+
+</script>

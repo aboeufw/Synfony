@@ -1,0 +1,126 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    color: #636363;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.42857143;
+}
+.main {
+    width: 90%;
+    max-width: 1200px;
+}
+.home {
+    text-align: center;
+}
+
+.order-title-number {
+    color: rgb(83, 147, 201);
+    font-size: 20px;
+    font-weight: 600;
+}
+.order-date {
+    color: #b0aeab;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.order-element-title {
+    color: rgb(83, 147, 201);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+a {
+    color: inherit;        /* prend la couleur du texte parent */
+    text-decoration: none
+}
+.order-element {
+    border: 1px solid #c1c1c1;
+    padding: 10px;
+    border-radius: 4px;
+}
+.shipping-carrier {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.trackers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.shipup-carrier {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 220px;
+}
+
+.shipup-carrier img {
+    user-select: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: auto;
+}
+
+.info-val {
+    font-weight: 600;
+}
+
+.iframe-container {
+    display: none;
+    position: fixed;
+    background-color: #fff;
+    border: 1px solid;
+    width: 90%;
+    height: 90%;
+}
+
+.iframe-container.active {
+    display: block;
+}
+
+#dynamic-iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    pointer-events: auto;
+    padding: 20px;
+}
+
+.open-tracking {
+    cursor: pointer;
+}
+
+.shipup-top-navbar {
+    display: none;
+}
+
+.tracking_link_shippingDocument {
+    text-decoration: underline;
+}
+
+.no-shipup {
+    color: #C98953;
+    font-style: italic;
+}
+
+@media (max-width: 600px) {
+    .trackers {
+        grid-template-columns: 1fr; /* 1 colonne sur petit écran */
+    }
+}

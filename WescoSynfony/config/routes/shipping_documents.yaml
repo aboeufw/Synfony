@@ -1,0 +1,3 @@
+shipping_documents:
+    resource: '../../src/ShippingDocuments/Controller/'
+    type: attribute
